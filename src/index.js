@@ -1,57 +1,5 @@
-class EventHandler {
-    constructor(prop) {
-        this.lastTarget = prop.targ
-        this.intervalId
-        this.isThrottle = false
-        this.content = prop.content
-        
-        this.getInfoClick = this.getInfoClick.bind(this)
-        this.addNewDiv = this.addNewDiv.bind(this)
-        this.toSleep = this.toSleep.bind(this)
-    }
-
-    toSelectNav(event) {
-        event.preventDefault()
-
-        this.lastTarget.classList.remove('selected')
-        event.target.classList.add('selected')
-
-        this.getInfoClick(event.target) // maybe event.target is not needed
-        this.lastTarget = event.target
-    }
-
-    addNewDiv(currNode) {
-        const about = document.querySelector('.about-me')
-        if (currNode.name == 'general' || currNode.name == 'study' || currNode.name == 'skills') {
-            about.insertAdjacentHTML('beforeend', this.content[currNode.name])
-            return
-        }
-        const div = `<div name='about__${currNode.name}' class="about-me__${currNode.name}"><h2 class="about__heading">${currNode.name}</h2></div>`
-        about.insertAdjacentHTML('beforeend', div)
-    }
-
-    toSleep(target) { 
-        return new Promise((resolve, reject) => {   // можно накидывать класс с анимацией и через таймаут анимации просто возвращать resolve, тем самым отслеживать конец анимки
-            this.isThrottle = true
-            target.style.opacity = 1
-            this.intervalId = setInterval(() => {
-                target.style.opacity <= 0 ? resolve(target) : target.style.opacity -= 0.07
-            }, 30)
-        })
-    }
-
-    getInfoClick(node) { // idk for what here is node
-        if (!this.isThrottle) {
-            const sleepTarget = document.querySelector(`div[name^=about__${this.lastTarget.name}]`)
-            this.toSleep(sleepTarget).then(res => {
-                clearInterval(this.intervalId)
-                this.addNewDiv(this.lastTarget)
-                res.remove()
-                this.isThrottle = false
-            })
-        }
-    }
-}
+import EventHandler from "./EventHandler";
+import './styles.css'
 
 const content = {
     general: `
@@ -123,17 +71,96 @@ const content = {
                    так, так красивее по крайней мере :)
                 </p>
             </div>
-    `
-    
+    `,
+    projects: `
+    <div name="about__projects" class="about-me__projects">
+        <h1 class="about-me__heading">Проекты</h1>
+        <p class="about-me__body">
+            Снизу представлен список с некоторыми проектами которые я делал, так или иначе совершенно
+            плохие проекты в этот список я не включил. 
+        </p>
+        <div class="about-me__cards-list">
+            <a href="https://github.com/heartbreaks/mobile-app-to-diploma" class="about-me__tail about-me__tail-link">
+                <img src="../assets/diploma.jpg" width="100" height="100" class="about-me__tail-photo">
+                <div class="about-me__tail-body">
+                    <h2 class="about-me__tail-heading">
+                        Дипломная работа
+                    </h2>
+                    <h3 class="about-me__tail-subheading">
+                        React-Native, ExpressJS, MySQL, Axios etc.
+                    </h3>
+                    <p class="about-me__tail-body">
+                        Bпервые в жизни тыкался в RN. И с многими другими либами, местами обходился без документации,
+                        и старался как можно быстрее сделать приложение. Так как времени было мало на написание
+                        диплома, в связи работой и учебой. 
+                    </p>
+                </div>
+            </a>
+            <a href="https://github.com/heartbreaks/text-chat-room" class="about-me__tail about-me__tail-link">
+                <img src="../assets/тестовое%20задание%20чат.jpg" width="100" height="100" class="about-me__tail-photo">
+                <div class="about-me__tail-body">
+                    <h2 class="about-me__tail-heading">
+                        Тестовое задание (чат)
+                    </h2>
+                    <h3 class="about-me__tail-subheading">
+                        ReactJS, WebSocket.
+                    </h3>
+                    <p class="about-me__tail-body">
+                        Создал свой собственный чат :) Правда не такой эффективный как Telegram, Viber и другие чаты,
+                        но все же сделал. С вебсокетами работал так же впервые в жизни. Справился за 3 дня.
+                    </p>
+                </div>
+            </a>
+            <a href="https://github.com/heartbreaks/vigilant-umbrella" class="about-me__tail about-me__tail-link">
+                <img src="../assets/testovoe_not_chat.jpg" width="100" height="100" class="about-me__tail-photo">
+                <div class="about-me__tail-body">
+                    <h2 class="about-me__tail-heading">
+                        Тестовое задание (управление сотрудниками?)
+                    </h2>
+                    <h3 class="about-me__tail-subheading">
+                        ReactJS, Redux, Bootstrap.
+                    </h3>
+                    <p class="about-me__tail-body">
+                        Приложение для грубо говоря управления сотрудниками, писал код спокойно и размерено.
+                        Использовал редакс, не так чисто код написан как хотелось бы, но все же. Справился за 12 часов, но,
+                        до написания кода продумывал архитектуру. Так что можно сказать что справился за 1 день и 12 часов.
+                    </p>
+                </div>
+            </a>
+            <a href="https://github.com/heartbreaks/heartbreaks.github.io" class="about-me__tail about-me__tail-link">
+                <img src="../assets/buses.png" width="100" height="100" class="about-me__tail-photo">
+                <div class="about-me__tail-body">
+                    <h2 class="about-me__tail-heading">
+                        Расписание автобусов
+                    </h2>
+                    <h3 class="about-me__tail-subheading">
+                    JavaScript, CSS, HTML.
+                    </h3>
+                    <p class="about-me__tail-body">
+                        Когда только начал постягать азы программирования решил сделать собственное динамическое расписание автобусов
+                        так как я живу в ПГТ, у нас автобусы по расписанию. Расписание подсвечивает ближайший автобус. Справился за
+                        несколько дней
+                    </p>
+                </div>
+            </a>
+        </div>
+        <p class="about-me__slim">
+            Интересно, это кто то читает?
+        </p>
+    </div>
+    `,
+    jobs: `
+    <div name="about__jobs" class="about-me__jobs">
+     <h1 name="about__jobs" class="about-me__jobs">Nan</h1>             
+    </div>
+        `
 }
-
 
 const EventHandlers = new EventHandler({targ: document.querySelector('a.nav-link.selected'), content})
 
 window.onload = () => {
     const list = document.querySelector('.about-me__links').addEventListener('click', (event) => {
         if (event.target.tagName != 'A') return NaN;
-        EventHandlers.toSelectNav(event,)
+        EventHandlers.toSelectNav(event)
     })
 }
-
