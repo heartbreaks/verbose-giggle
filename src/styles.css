@@ -1,4 +1,4 @@
-/* * {
+ * {
     margin: 0;
     padding: 0;
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -39,7 +39,6 @@
 
 .header__info {
     font-size: 52px;
-    // font-weight: bold;
     align-self: flex-end;
     line-height: 56px;
 }
@@ -119,11 +118,9 @@ div[name ^= "about__"]:last-child {
 .about-me__slim {
     margin-top: 20px;
     font-size: 24px;
-    // font-weight: 700; 
     color: #b9b9b9;
     line-height: 19px;
 }
-
 
 .selected {
     color: #b9b9b9;
@@ -220,4 +217,59 @@ div[name ^= "about__"]:last-child {
 
 .about-me__card:hover::before {
     width: 0%;
+}
+
+.about-me__tail-photo {
+    border-radius: 5rem;
+    margin-right: 15px;
+    box-shadow: 0 0 5px rgb(156, 156, 156);
+    background-size: cover;
+}
+
+.about-me__cards-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.about-me__tail {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid rgb(207, 207, 207);
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    align-items: center;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.about-me__tail-subheading {
+    font-size: 18px;
+    color: rgb(207, 207, 207);
+    font-weight: normal;
+    margin-bottom: 5px;
+    transition: .3s;
+}
+
+.about-me__tail-heading {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.about-me__tail-body {
+    width: 600px;
+}
+
+.about-me__tail-link {
+    color: black;
+}
+
+.about-me__tail:hover {
+    background-color: #eaeaea;
+
+}
+
+.about-me__tail:hover .about-me__tail-subheading {
+    color: rgba(255, 0, 0, 0.7);
 }
